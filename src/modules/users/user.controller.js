@@ -95,3 +95,41 @@ export const deleteUser = catchAsync(async(req,res,next)=>{
     await userService.deleteUser(userSession)
     return res.status(204).json(null)
 })
+
+export const findAllReviewByUser = catchAsync(async(req,res,next)=>{
+    const userSession = req.userSession
+    const reviewsByUser = await userService.findAllReviewsByUser(userSession.id)
+    if(!reviewsByUser){
+        return next(new AppError(`you do not have reviews yet`, 404))
+    }
+    return res.status(200).json(reviewsByUser)
+})
+
+export const findOneReviewById = catchAsync(async(req,res,next)=>{
+    const userSession = req.userSession
+    const {id} = req.params
+    const oneReviewById = await userService.findOneReviewById(userSession,id)
+    if(!oneReviewById){
+        return next(new AppError(`order with id: ${id} not found`, 404))
+    }
+    return res.status(200).json(oneReviewById)
+})
+
+export const findAllOrderByUser = catchAsync(async(req,res,next)=>{
+    const userSession = req.userSession
+    const ordersByUser = await userService.findAllOrderByUser(userSession.id)
+    if(!ordersByUser){
+        return next(new AppError(`you do not have reviews yet`, 404))
+    }
+    return res.status(200).json(ordersByUser)
+})
+
+export const findOneOrderById = catchAsync(async(req,res,next)=>{
+    const userSession = req.userSession
+    const {id} = req.params
+    const oneOrderById = await userService.findOneOrderById(userSession,id)
+    if(!oneOrderById){
+        return next(new AppError(`order with id: ${id} not found`, 404))
+    }
+    return res.status(200).json(oneOrderById)
+}) 

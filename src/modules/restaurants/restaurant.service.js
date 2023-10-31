@@ -15,8 +15,14 @@ export class RestaurantService {
         return await Restaurant.create(data)
     }
 
-    async findOneRestaurant(id){
-        return await Restaurant.findOne({where:{id}})
+    async findOneRestaurant(id, restaurantId){
+
+        return await Restaurant.findOne({
+            where:{
+                id: restaurantId || id,
+                status:true
+            }
+        })
     }
 
     async updateRestaurant(restaurant ,data){

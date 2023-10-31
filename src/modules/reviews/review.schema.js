@@ -9,6 +9,11 @@ export const reviewSchema = z.object({
     rating: z.number().max(5)
 })
 
+export const reviewUpdateSchema = z.object({
+    comment: z.string(),
+    rating: z.number().max(5)
+})
+
 export const validateReview = (data) => {
  const result = reviewSchema.safeParse(data);
  const {hasError, errorMesages, data: reviewData} = extractValidateData(result);
@@ -19,12 +24,12 @@ export const validateReview = (data) => {
  }
 }
 
-export const validatePartialReview = (data) => {
- const result = reviewSchema.partial().safeParse(data);
- const {hasError, errorMesages, data: reviewData} = extractValidateData(result);
- return {
-  hasError,
-  errorMesages,
-  reviewData
- }
-}
+export const validateUpdateReview = (data) => {
+    const result = reviewUpdateSchema.safeParse(data);
+    const {hasError, errorMesages, data: reviewData} = extractValidateData(result);
+    return {
+     hasError,
+     errorMesages,
+     reviewData
+    }
+   }

@@ -20,10 +20,11 @@ const Review = sequelize.define('review', {
     },
     restaurantId: {
         type: DataTypes.INTEGER,
-        allowNull:false
+        allowNull:false,
+        field: 'restaurant_id'
     },
     rating: {
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull:false
     },
     status:{
@@ -31,6 +32,13 @@ const Review = sequelize.define('review', {
         allowNull: false,
         defaultValue: true,
     }
+},{
+    indexes:[
+        {
+            unique:true,
+            fields:['restaurant_id','user_id']
+        }
+    ]
 });
 
 export default Review;
