@@ -20,13 +20,12 @@ router
     .post(protect,restrictTo('admin'),createRestaurant);
 
 router
-    .use('/:id', restaurantExist)
     .route('/:id')
-    .patch(protect,restrictTo('admin'), updateRestaurant)
-    .get(findOneRestaurant)
-    .delete(protect,restrictTo('admin'), deleteRestaurant)
+    .patch(protect,restrictTo('admin'),restaurantExist, updateRestaurant)
+    .get(restaurantExist,findOneRestaurant)
+    .delete(protect,restrictTo('admin'),restaurantExist, deleteRestaurant)
 
-router.post('/reviews/:id', protect, restaurantExist, createRestaurantReview)
+router.post('/reviews/:id', protect, restaurantExist ,createRestaurantReview)
 
 router
     .route('/reviews/:restaurantId/:id')

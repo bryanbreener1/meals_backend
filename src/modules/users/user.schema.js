@@ -20,12 +20,12 @@ export const validateUser = (data) => {
   const result = userSchema.safeParse(data);
   const {
     hasError,
-    errorMesages,
+    errorMessages,
     data: userData,
   } = extractValidateData(result);
   return {
     hasError,
-    errorMesages,
+    errorMessages,
     userData,
   };
 };
@@ -34,12 +34,12 @@ export const validateUpdatelUser = (data) => {
   const result = updateSchema.partial().safeParse(data);
   const {
     hasError,
-    errorMesages,
+    errorMessages,
     data: userData,
   } = extractValidateData(result);
   return {
     hasError,
-    errorMesages,
+    errorMessages,
     userData,
   };
 };
@@ -48,12 +48,12 @@ export const validateLogin = (data) => {
   const result = loginSchema.safeParse(data);
   const {
     hasError,
-    errorMesages,
+    errorMessages,
     data: userData,
   } = extractValidateData(result);
   return {
     hasError,
-    errorMesages,
+    errorMessages,
     userData,
   };
 };

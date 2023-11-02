@@ -3,33 +3,28 @@ import z from 'zod'
 
 
 export const reviewSchema = z.object({
-    userId: z.number().int(),
     comment: z.string(),
-    restaurantId : z.number().int(),
-    rating: z.number().max(5)
+    rating: z.number().int().max(5)
 })
 
-export const reviewUpdateSchema = z.object({
-    comment: z.string(),
-    rating: z.number().max(5)
-})
+
 
 export const validateReview = (data) => {
  const result = reviewSchema.safeParse(data);
- const {hasError, errorMesages, data: reviewData} = extractValidateData(result);
+ const {hasError, errorMessages, data: reviewData} = extractValidateData(result);
  return {
   hasError,
-  errorMesages,
+  errorMessages,
   reviewData
  }
 }
 
 export const validateUpdateReview = (data) => {
-    const result = reviewUpdateSchema.safeParse(data);
-    const {hasError, errorMesages, data: reviewData} = extractValidateData(result);
+    const result = reviewSchema.partial().safeParse(data);
+    const {hasError, errorMessages, data: reviewData} = extractValidateData(result);
     return {
      hasError,
-     errorMesages,
+     errorMessages,
      reviewData
     }
    }

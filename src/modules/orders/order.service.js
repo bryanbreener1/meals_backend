@@ -14,27 +14,44 @@ export class OrderService{
     async deleteOrder(order){
         return await order.update({status:'cancelled'})
     }
-    async findOneOrder(id){
+    async findOneOrder(userId, id){
         return await Order.findOne({
             where:{
                 id,
-                status:'active'
-            }
-        })
-    }
-    async findAllOrderByUser(id){
-        return await Order.findOne({
-            where:{
-                id,
-                status:'active'
+                status:'active',
+                userId:userId
             },
+            attributes:['order_id','userId', 'mealId'],
             include:[
                 {
                     model: Meal,
                     as: 'mealHasOneOrder',
+                    attributes: ['name', 'price', 'restaurantId'],
                     include:{
                         model: Restaurant,
-                        as: 'mealBelongsRestaurant'
+                        as: 'mealBelongsRestaurant',
+                        attributes: ['name', 'address','rating']
+                    }
+                }
+            ]
+        })
+    }
+    async findAllOrderByUser(id){
+        return await Order.findAll({
+            where:{
+                userId:id,
+                status:'active',
+            },
+            attributes:['order_id','userId', 'mealId'],
+            include:[
+                {
+                    model: Meal,
+                    as: 'mealHasOneOrder',
+                    attributes: ['name', 'price', 'restaurantId'],
+                    include:{
+                        model: Restaurant,
+                        as: 'mealBelongsRestaurant',
+                        attributes: ['name', 'address','rating']
                     }
                 }
             ]

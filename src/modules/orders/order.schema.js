@@ -1,5 +1,5 @@
 import z from 'zod'
-import { extractValidateData } from '../../common/extractValidateData'
+import { extractValidateData } from '../../common/extractValidateData.js'
 
 export const orderSchema = z.object({
     mealId: z.number().int(),
@@ -8,20 +8,20 @@ export const orderSchema = z.object({
 
 export const validateOrder = (data) => {
  const result = orderSchema.safeParse(data);
- const {hasError, errorMesages, data: orderData} = extractValidateData(result);
+ const {hasError, errorMessages, data: orderData} = extractValidateData(result);
  return {
   hasError,
-  errorMesages,
+  errorMessages,
   orderData
  };
 };
 
 export const validatePartialOrder = (data) => {
  const result = orderSchema.partial().safeParse(data);
- const {hasError, errorMesages, data: orderData} = extractValidateData(result);
+ const {hasError, errorMessages, data: orderData} = extractValidateData(result);
  return {
   hasError,
-  errorMesages,
+  errorMessages,
   orderData
  };
 };

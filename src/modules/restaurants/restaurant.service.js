@@ -7,6 +7,12 @@ export class RestaurantService {
         return await Restaurant.findAll({
             where:{
                 status: true
+            },
+            attributes:['id', 'name','address','rating'],
+            include:{
+                model: Review,
+                as: 'restaurantHasReviews',
+                attributes:['userId','comment','rating']
             }
         })
     }
@@ -21,6 +27,12 @@ export class RestaurantService {
             where:{
                 id: restaurantId || id,
                 status:true
+            },
+            attributes:['id', 'name','address','rating'],
+            include:{
+                model: Review,
+                as: 'restaurantHasReviews',
+                attributes:['userId','comment','rating']
             }
         })
     }

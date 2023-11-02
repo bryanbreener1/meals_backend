@@ -4,7 +4,7 @@ import { protect } from "../users/user.middleware.js";
 
 
 
-const router = Router()
+export const router = Router()
 
 router.use(protect)
 

@@ -3,7 +3,7 @@ import z from "zod";
 export const restaurantSchema = z.object({
   name: z.string(150),
   address: z.string(255),
-  rating: z.number(),
+  rating: z.number().int().max(5),
 });
 
 export const restaurantSchemaUpdate = z.object({
@@ -15,26 +15,26 @@ export const validateRestaurant = (data) => {
   const result = restaurantSchema.safeParse(data);
   const {
     hasError,
-    errorMesages,
+    errorMessages,
     data: restaurantData,
   } = extractValidateData(result);
   return {
     hasError,
-    errorMesages,
+    errorMessages,
     restaurantData,
   };
 };
 
 export const validatePartialRestaurant = (data) => {
-  const result = restaurantSchemaUpdate.safeParse(data);
+  const result = restaurantSchemaUpdate.partial().safeParse(data);
   const {
     hasError,
-    errorMesages,
+    errorMessages,
     data: restaurantData,
   } = extractValidateData(result);
   return {
     hasError,
-    errorMesages,
+    errorMessages,
     restaurantData,
   };
 };

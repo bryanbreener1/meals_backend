@@ -9,7 +9,7 @@ const Order = sequelize.define('order', {
       type: DataTypes.INTEGER,
       field: 'order_id'
     },
-    mealdId: {
+    mealId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'meal_id'

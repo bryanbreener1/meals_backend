@@ -1,19 +1,21 @@
+import { or } from "sequelize"
 import { verifyPassword } from "../../config/plugins/encrypted-password.plugin.js"
 import generateJWT from "../../config/plugins/generate-jwt.plugin.js"
 import { AppError } from "../../errors/appError.js"
 import { catchAsync } from "../../errors/catchAsync.js"
+import { OrderService } from "../orders/order.service.js"
 import { validateLogin, validateUpdatelUser, validateUser } from "./user.schema.js"
 import { UserService } from "./user.service.js"
 
 const userService = new UserService()
-
+const orderService = new OrderService()
 
 export const createUser = catchAsync(async(req, res, next) => {
-    const {hasError, errorMesages, userData} = validateUser(req.body)
+    const {hasError, errorMessages, userData} = validateUser(req.body)
     if(hasError){
         return res.status(404).json({
             status: 'error',
-            message: errorMesages
+            message: errorMessages
         })
     }
 
@@ -34,11 +36,11 @@ export const createUser = catchAsync(async(req, res, next) => {
 
 
 export const login = catchAsync(async(req,res,next) => {
-    const {hasError, errorMesages, userData} = validateLogin(req.body)
+    const {hasError, errorMessages, userData} = validateLogin(req.body)
     if(hasError){
         return res.status(404).json({
             status: 'error',
-            message: errorMesages
+            message: errorMessages
         })
     }
 
@@ -71,11 +73,11 @@ export const updateUser = catchAsync(async(req,res,next)=>{
     if(userSession.id !== user.id){
         return next(new AppError('you can not edit accounts that not belongs you', 400))
     }
-    const{hasError, errorMesages, userData} = validateUpdatelUser(req.body)
+    const{hasError, errorMessages, userData} = validateUpdatelUser(req.body)
     if(hasError){
         return res.status(404).json({
             status: 'error',
-            message: errorMesages
+            message: errorMessages
         })
     }
     await userService.updateUser(userSession, userData)
@@ -117,7 +119,9 @@ export const findOneReviewById = catchAsync(async(req,res,next)=>{
 
 export const findAllOrderByUser = catchAsync(async(req,res,next)=>{
     const userSession = req.userSession
-    const ordersByUser = await userService.findAllOrderByUser(userSession.id)
+    //const ordersByUser = await userService.findAllOrderByUser(userSession.id)
+    const ordersByUser = await orderService.findAllOrderByUser(userSession.id)
+    
     if(!ordersByUser){
         return next(new AppError(`you do not have reviews yet`, 404))
     }
@@ -127,7 +131,7 @@ export const findAllOrderByUser = catchAsync(async(req,res,next)=>{
 export const findOneOrderById = catchAsync(async(req,res,next)=>{
     const userSession = req.userSession
     const {id} = req.params
-    const oneOrderById = await userService.findOneOrderById(userSession,id)
+    const oneOrderById = await orderService.findOneOrder(userSession.id,id)
     if(!oneOrderById){
         return next(new AppError(`order with id: ${id} not found`, 404))
     }

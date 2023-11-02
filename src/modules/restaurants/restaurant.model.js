@@ -18,7 +18,7 @@ const Restaurant = sequelize.define('restaurant', {
         allowNull: false
     },
     rating:{
-        type: DataTypes.FLOAT,
+        type: DataTypes.INTEGER,
         allowNull:false
     },
     status:{

@@ -11,11 +11,11 @@ export const findAllMeal = catchAsync(async (req, res, next) => {
 
 export const createMeal = catchAsync(async (req, res, next) => {
   const { id } = req.params;
-  const { hasError, errorMesages, mealData } = validateMeal(req.body);
+  const { hasError, errorMessages, mealData } = validateMeal(req.body);
   if (hasError) {
     return res.status(422).json({
       status: "error",
-      messages: errorMesages,
+      messages: errorMessages,
     });
   }
   mealData.restaurantId = id;
@@ -31,11 +31,11 @@ export const findOneMeal = catchAsync(async (req, res, next) => {
 
 export const updateMeal = catchAsync(async (req, res, next) => {
   const { meal } = req;
-  const { hasError, errorMesages, mealData } = validatePartialMeal(req.body)
+  const { hasError, errorMessages, mealData } = validatePartialMeal(req.body)
   if (hasError) {
     return res.status(422).json({
       status: "error",
-      messages: errorMesages,
+      messages: errorMessages,
     });
   }
   const mealUpdated = await mealService.updateMeal(meal, mealData)

@@ -1,6 +1,6 @@
 import { AppError } from "../../errors/appError.js";
 import { catchAsync } from "../../errors/catchAsync.js";
-import { validatePartialReview, validateReview, validateUpdateReview } from "../reviews/review.schema.js";
+import { validateReview, validateUpdateReview } from "../reviews/review.schema.js";
 import { ReviewService } from "../reviews/review.service.js";
 import {
   validatePartialRestaurant,
@@ -17,11 +17,11 @@ export const findAllRestaurant = catchAsync(async (req, res, next) => {
 })
 
 export const createRestaurant = catchAsync(async (req, res, next) => {
-  const { hasError, errorMesages, restaurantData } = validateRestaurant(req.body)
+  const { hasError, errorMessages, restaurantData } = validateRestaurant(req.body)
   if (hasError) {
     return res.status(422).json({
       status: "error",
-      messages: errorMesages,
+      messages: errorMessages,
     })
   }
   const restaurant = await restaurantService.createRestaurant(restaurantData);
@@ -35,11 +35,11 @@ export const findOneRestaurant = catchAsync(async (req, res, next) => {
 
 export const updateRestaurant = catchAsync(async (req, res, next) => {
   const { restaurant } = req;
-  const { hasError, errorMesages, restaurantData } = validatePartialRestaurant(req.body)
+  const { hasError, errorMessages, restaurantData } = validatePartialRestaurant(req.body)
   if (hasError) {
     return res.status(422).json({
       status: "error",
-      messages: errorMesages,
+      messages: errorMessages,
     })
   }
   const restaurantUpdated = await restaurantService.updateRestaurant(
@@ -58,12 +58,12 @@ export const deleteRestaurant = catchAsync(async (req, res, next) => {
 export const createRestaurantReview = catchAsync(async(req,res,next)=>{
     const {restaurant} = req
     const {userSession} = req
-    const {hasError, errorMesages, reviewData} = validateReview(req.body)
+    const {hasError, errorMessages, reviewData} = validateReview(req.body)
 
     if(hasError){
       return res.status(403).json({
         status: 'error',
-        message: errorMesages
+        message: errorMessages
       })
     }
     reviewData.restaurantId = restaurant.id
@@ -85,7 +85,7 @@ export const updateRestaurantReview = catchAsync(async(req,res,next)=>{
       return next(new AppError(`review with id: ${id} not found`))
     }
 
-    if(restaurant.id ==! review.restaurantId){
+    if(restaurant.id !== review.restaurantId){
       return next(new AppError(`review with id: ${id} not found in the restaurant ${restaurant.name}`))
     }
 
@@ -93,15 +93,15 @@ export const updateRestaurantReview = catchAsync(async(req,res,next)=>{
       return next(new AppError(`you are not the owner of this review`))
     }
 
-    const {hasError, errorMesages, reviewData} = validateUpdateReview(req.body)
+    const {hasError, errorMessages, reviewData} = validateUpdateReview(req.body)
     if(hasError){
       return res.status(403).json({
         status: 'error',
-        message: errorMesages
+        message: errorMessages
       })
     }
     
-    const reviewUpdated = await reviewService.updateReview(reviewData)
+    const reviewUpdated = await reviewService.updateReview(review, reviewData)
     return res.status(200).json(reviewUpdated)
 })
 
