@@ -24,8 +24,8 @@ router.get('/orders', protect, findAllOrderByUser)
 router.get('/orders/:id', protect, findOneOrderById)
 
 
-router.get('/reviews',protect, findAllReviewByUser) //funcionalidad extra
-router.get('/reviews/:id',protect, findOneReviewById) //funcionalidad extra
+router.get('/reviews',protect, findAllReviewByUser)
+router.get('/reviews/:id',protect, findOneReviewById) 
 
 
 

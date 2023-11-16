@@ -21,8 +21,8 @@ router
 
 router
     .route('/:id')
-    .patch(protect,restrictTo('admin'),restaurantExist, updateRestaurant)
     .get(restaurantExist,findOneRestaurant)
+    .patch(protect,restrictTo('admin'),restaurantExist, updateRestaurant)
     .delete(protect,restrictTo('admin'),restaurantExist, deleteRestaurant)
 
 router.post('/reviews/:id', protect, restaurantExist ,createRestaurantReview)

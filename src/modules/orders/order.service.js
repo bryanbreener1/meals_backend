@@ -17,11 +17,11 @@ export class OrderService{
     async findOneOrder(userId, id){
         return await Order.findOne({
             where:{
-                id,
+                id:id,
                 status:'active',
                 userId:userId
             },
-            attributes:['order_id','userId', 'mealId'],
+            attributes:['id','userId', 'mealId','status'],
             include:[
                 {
                     model: Meal,

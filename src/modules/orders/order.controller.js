@@ -44,13 +44,13 @@ export const createOrder = catchAsync(async(req,res,next)=>{
 export const updateOrder = catchAsync(async(req,res,next)=>{
     const {userSession} = req
     const {id} = req.params
-    const order = await orderService.findOneOrder(id)
+    const order = await orderService.findOneOrder(userSession.id,id)
     
-    if(userSession.id !== order.userId){
-        return next(new AppError(`you can not update order that do not belongs you`,401))
-    }
     if(!order){
         return next(new AppError(`order with id ${id} not found`,404))
+    }
+    if(userSession.id !== order.userId){
+        return next(new AppError(`you can not update order that do not belongs you`,401))
     }
     if(order.status !== 'active'){
         return next(new AppError(`order with id ${id} found, but its status is not active, it can not be updated`,404))
@@ -66,7 +66,7 @@ export const updateOrder = catchAsync(async(req,res,next)=>{
 export const deleteOrder = catchAsync(async(req,res,next)=>{
     const {userSession} = req
     const {id} = req.params
-    const order = await orderService.findOneOrder(id)
+    const order = await orderService.findOneOrder(userSession.id,id)
     if(!order){
         return next(new AppError(`order with id ${id} not found`,404))
     }
