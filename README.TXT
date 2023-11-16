@@ -1,6 +1,6 @@
 
 
-# AIRPORT DB - pasos para ejercutar este backend
+# meals DB - pasos para ejercutar este backend
 
 1. clonar el siguiente repositorio
 2. ejecutar el comando:
